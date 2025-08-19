@@ -1,0 +1,10 @@
+@InternalCRM.Server_HostAddress = http://localhost:5136
+
+GET {{InternalCRM.Server_HostAddress}}/maham/
+Accept: application/json
+
+###
+POST {{InternalCRM.Server_HostAddress}}/maham/account
+Accept: application/json
+
+###
