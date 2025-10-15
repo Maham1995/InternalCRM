@@ -9,7 +9,7 @@ namespace InternalCRM.Server.Entities
 
         public string FirstName { get; set; }
         public string Surname { get; set; }
-        public string accountId { get; set; }
+        public string AccountId { get; set; }
         public string Email { get; set; }
         public DateTime CreatedDate { get; set; }
     }

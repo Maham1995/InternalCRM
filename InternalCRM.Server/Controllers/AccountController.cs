@@ -15,10 +15,13 @@ namespace InternalCRM.Server.Controllers
         }
 
         //this method will be used to onboard new accounts
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost(Name = "CreateAccount")]
-        public ActionResult CreateAccount(Account acc)
+        public async Task<ActionResult> CreateAccount(Account acc)
         {
-            var result = _accountManager.createAccount(acc);
+            var result = await _accountManager.createAccount(acc);
+            
             return Ok(result);
         }
     }
