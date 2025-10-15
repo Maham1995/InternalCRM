@@ -1,35 +1,43 @@
 ﻿using InternalCRM.Server.DBContext;
-using InternalCRM.Server.Models;
-using Microsoft.AspNetCore.Mvc;
-using SQLitePCL;
 
 namespace InternalCRM.Server.Manager
 {
     public class AccountManager
     {
         private readonly AppDbContext _context;
-
-        public AccountManager(AppDbContext context) 
+        
+        public AccountManager(AppDbContext context)
         {
             _context = context;
         }
 
         //this method will be used to onboard new accounts
-        public IActionResult createAccount(Account acc)
+        public async Task<string> createAccount(Models.Account acc)
         {
+            acc.AccountId = acc.createAccountId(acc.FirstName, acc.Surname);
+            acc.CreatedDate = DateTime.UtcNow;
 
-            if (acc == null)
+            var dbAcc = new Entities.Account
             {
-                throw new ArgumentNullException();
+                Id = Guid.NewGuid(),
+                AccountId = acc.AccountId,
+                FirstName = acc.FirstName,
+                Surname = acc.Surname,
+                Email = acc.Email,
+                CreatedDate = acc.CreatedDate
+            };
+
+            try
+            {
+                await _context.AddAsync(dbAcc);
+                await _context.SaveChangesAsync();
+
+                return dbAcc.Email;
             }
-
-
-            //should i move this to a seperate folder called handler
-            _context.Add(acc);
-            _context.SaveChanges();
-
-            return null;
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Something went wrong: {ex}");
+            }
         }
-        
     }
 }
