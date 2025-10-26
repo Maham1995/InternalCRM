@@ -8,3 +8,7 @@ POST {{InternalCRM.Server_HostAddress}}/maham/account
 Accept: application/json
 
 ###
+GET {{InternalCRM.Server_HostAddress}}/maham/account
+Accept: application/json
+
+###
